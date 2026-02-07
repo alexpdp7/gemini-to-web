@@ -7,10 +7,14 @@ authors = [
     { name = "alex", email = "alex@pdp7.net" }
 ]
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "htmlgenerator>=1.2.32",
+    "lxml>=6.0.2",
+]
 
 [project.scripts]
 gemini-to-web-parse= "gemini_to_web.parser:cli_parse"
+gemini-to-web-html = "gemini_to_web.html:cli_html"
 
 [build-system]
 requires = ["uv_build>=0.9.30,<0.10.0"]
