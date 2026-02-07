@@ -34,7 +34,7 @@ def parse(gemtext: str):
     ...
     ... Something.
     ... ''')
-    [TextLine(text='# Welcome'), TextLine(text=''), TextLine(text='Something.')]
+    [HeadingLine(level=1, heading_text='Welcome'), TextLine(text=''), TextLine(text='Something.')]
 
     >>> _test('''
     ... This is a test.
@@ -88,6 +88,11 @@ def parse(gemtext: str):
         quote_line = QuoteLine.parse(line)
         if quote_line:
             yield quote_line
+            continue
+
+        heading_line = HeadingLine.parse(line)
+        if heading_line:
+            yield heading_line
             continue
 
         yield TextLine(line)
