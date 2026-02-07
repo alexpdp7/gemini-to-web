@@ -212,3 +212,15 @@ class QuoteLine:
         if not line.startswith("> "):
             return None
         return QuoteLine(line.removeprefix("> "))
+
+
+def cli_parse():
+    import json, pathlib, sys
+
+    def dataclass_json(obj):
+        assert dataclasses.is_dataclass(obj)
+        d = dataclasses.asdict(obj)
+        d["type"] = type(obj).__name__
+        return d
+
+    print(json.dumps(list(parse(pathlib.Path(sys.argv[1]).read_text())), default=dataclass_json))
