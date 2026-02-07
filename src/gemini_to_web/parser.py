@@ -28,6 +28,13 @@ def parse(gemtext: str):
     ... ```
     ... ''')
     [TextLine(text='This is a test'), TextLine(text=''), PreformattingToggleLine(alt_text='foo'), PreformattedTextLine(text='bar'), PreformattingToggleLine(alt_text=None)]
+
+    >>> _test('''
+    ... # Welcome
+    ...
+    ... Something.
+    ... ''')
+    [TextLine(text='# Welcome'), TextLine(text=''), TextLine(text='Something.')]
     """
 
     current_preformatting_toggle_line = None
@@ -118,3 +125,24 @@ class PreformattingToggleLine:
         line = line.removeprefix('```')
         line: typing.Optional[str] = line if line else None
         return PreformattingToggleLine(line)
+
+
+@dataclasses.dataclass
+class HeadingLine:
+    level: int
+    heading_text: str
+
+    @staticmethod
+    def parse(line: str):
+        """
+        >>> HeadingLine.parse('Not a heading line')
+
+        >>> HeadingLine.parse('# Foo')
+        HeadingLine(level=1, heading_text='Foo')
+        """
+        parts = line.split(maxsplit=1)
+        if len(parts) < 2:
+            return None
+        if not parts[0] in ('#', '##', '###'):
+            return None
+        return HeadingLine(len(parts[0]), parts[1])
