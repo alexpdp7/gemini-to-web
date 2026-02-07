@@ -15,6 +15,7 @@ dependencies = [
 [project.scripts]
 gemini-to-web-parse= "gemini_to_web.parser:cli_parse"
 gemini-to-web-html = "gemini_to_web.html:cli_html"
+gemini-to-web = "gemini_to_web:converter"
 
 [build-system]
 requires = ["uv_build>=0.9.30,<0.10.0"]

@@ -1,0 +1,7 @@
+# A gemini-to-web example blog
+
+This demonstrates how you can create a Gemini protocol and HTML/HTTP blog using gemini-to-web.
+
+=> post_1 2025-12-03 The first post
+=> post_2 2025-12-02 The second post
+=> post_3 2025-12-01 The third post
