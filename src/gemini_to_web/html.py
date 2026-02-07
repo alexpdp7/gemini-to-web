@@ -4,7 +4,13 @@ from lxml import etree, html
 from gemini_to_web import parser
 
 
-def to_html(gemtext):
+def first_header_title_extractor(parsed):
+    heading_lines = [element for element in parsed if isinstance(element, parser.HeadingLine)]
+    if heading_lines:
+        return heading_lines[0].heading_text
+
+
+def to_html(gemtext, title_extractor=first_header_title_extractor):
     parsed = list(parser.parse(gemtext))
 
     body = []
@@ -15,6 +21,11 @@ def to_html(gemtext):
         if building_element and building_content:
             body.append(building_element(*building_content))
         return (body, None, None)
+
+    head = []
+
+    if title_extractor:
+       head.append(htmlgenerator.TITLE(title_extractor(parsed)))
 
     for item in parsed:
         match item:
@@ -74,7 +85,7 @@ def to_html(gemtext):
 
     close(body, building_element, building_content)
     html = htmlgenerator.HTML(
-        htmlgenerator.HEAD(),
+        htmlgenerator.HEAD(*head),
         htmlgenerator.BODY(*body),
     )
     return html
